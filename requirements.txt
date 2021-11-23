@@ -8,3 +8,4 @@ scipy
 cmake
 onnxruntime-gpu
 opencv-python-headless
+encoded-video
