@@ -19,6 +19,7 @@ model = torch.hub.load(
     progress=True,
 )
 
+
 def face2paint(model: torch.nn.Module, img: Image.Image, size: int = 512, device: str = 'cuda'):
     w, h = img.size
     s = min(w, h)
@@ -107,7 +108,7 @@ def inference_step(vid, start_sec, duration, out_fps):
 
 
 def predict_fn(filepath, start_sec, duration):
-    out_fps=12
+    out_fps = 12
     vid = EncodedVideo.from_path(filepath)
     for i in range(duration):
         print(f"🖼️ Processing step {i + 1}/{duration}...")
