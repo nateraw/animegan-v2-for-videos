@@ -3,7 +3,6 @@ import math
 import sys
 from subprocess import call
 
-import gradio as gr
 import numpy as np
 import torch
 from encoded_video import EncodedVideo, write_video
@@ -22,6 +21,7 @@ def run_cmd(command):
 
 print("⬇️ Installing latest gradio==2.4.7b0")
 run_cmd("pip install gradio==2.4.7b0")
+import gradio as gr
 
 print("🧠 Loading Model...")
 model = torch.hub.load(
