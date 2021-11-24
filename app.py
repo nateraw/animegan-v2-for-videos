@@ -106,8 +106,8 @@ def inference_step(vid, start_sec, duration, out_fps):
     return output_video, audio_arr, out_fps, audio_fps
 
 
-def predict_fn(filepath, start_sec, duration, out_fps):
-    # out_fps=12
+def predict_fn(filepath, start_sec, duration):
+    out_fps=12
     vid = EncodedVideo.from_path(filepath)
     for i in range(duration):
         print(f"🖼️ Processing step {i + 1}/{duration}...")
@@ -142,7 +142,7 @@ gr.Interface(
         gr.inputs.Video(),
         gr.inputs.Slider(minimum=0, maximum=300, step=1, default=0),
         gr.inputs.Slider(minimum=1, maximum=5, step=1, default=2),
-        gr.inputs.Slider(minimum=6, maximum=18, step=6, default=12),
+        # gr.inputs.Slider(minimum=6, maximum=18, step=6, default=12),  # Leaving manual fps out for now
     ],
     outputs=gr.outputs.Video(),
     title='AnimeGANV2 On Videos',
