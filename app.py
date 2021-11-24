@@ -163,8 +163,8 @@ gr.Interface(
     description="Applying AnimeGAN-V2 to frames from video clips",
     article=article,
     enable_queue=True,
-    examples=[
-        ['obama.webm', 0, 4],
-    ],
+    # examples=[
+    #     ['obama.webm', 0, 4],
+    # ],
     allow_flagging=False,
 ).launch()
