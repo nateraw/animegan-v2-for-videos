@@ -151,7 +151,7 @@ gr.Interface(
     article=article,
     enable_queue=True,
     examples=[
-        ['obama.webm', 0, 4, 12],
+        ['obama.webm', 0, 4],
     ],
     allow_flagging=False,
 ).launch(debug=True)
