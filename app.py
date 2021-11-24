@@ -56,6 +56,7 @@ def uniform_temporal_subsample(x: torch.Tensor, num_samples: int, temporal_dim: 
     return torch.index_select(x, temporal_dim, indices)
 
 
+# This function is taken from pytorchvideo!
 def short_side_scale(
     x: torch.Tensor,
     size: int,
@@ -87,9 +88,8 @@ def short_side_scale(
 
 
 def inference_step(vid, start_sec, duration, out_fps):
-    # vid =
+
     clip = vid.get_clip(start_sec, start_sec + duration)
-    # TxCxHxW -> CxTxHxW
     video_arr = torch.from_numpy(clip['video']).permute(3, 0, 1, 2)
     audio_arr = np.expand_dims(clip['audio'], 0)
     audio_fps = None if not vid._has_audio else vid._container.streams.audio[0].sample_rate
@@ -101,7 +101,6 @@ def inference_step(vid, start_sec, duration, out_fps):
     with torch.no_grad():
         output = model(x.to('cuda')).detach().cpu()
         output = (output * 0.5 + 0.5).clip(0, 1) * 255.0
-        # CxTx512x512 -> TxCx512x512
         output_video = output.permute(0, 2, 3, 1).numpy()
 
     return output_video, audio_arr, out_fps, audio_fps
@@ -111,6 +110,7 @@ def predict_fn(filepath, start_sec, duration, out_fps):
     # out_fps=12
     vid = EncodedVideo.from_path(filepath)
     for i in range(duration):
+        print(f"🖼️ Processing step {i + 1}/{duration}...")
         video, audio, fps, audio_fps = inference_step(vid=vid, start_sec=i + start_sec, duration=1, out_fps=out_fps)
         gc.collect()
         if i == 0:
@@ -120,8 +120,10 @@ def predict_fn(filepath, start_sec, duration, out_fps):
             video_all = np.concatenate((video_all, video))
             audio_all = np.hstack((audio_all, audio))
 
+    print(f"💾 Writing output video...")
     write_video('out.mp4', video_all, fps=fps, audio_array=audio_all, audio_fps=audio_fps, audio_codec='aac')
 
+    print(f"✅ Done!")
     del video_all
     del audio_all
 
@@ -139,16 +141,16 @@ gr.Interface(
     inputs=[
         gr.inputs.Video(),
         gr.inputs.Slider(minimum=0, maximum=300, step=1, default=0),
-        gr.inputs.Slider(minimum=1, maximum=10, step=1, default=2),
-        gr.inputs.Slider(minimum=12, maximum=30, step=6, default=24),
+        gr.inputs.Slider(minimum=1, maximum=5, step=1, default=2),
+        gr.inputs.Slider(minimum=6, maximum=24, step=6, default=12),
     ],
     outputs=gr.outputs.Video(),
     title='AnimeGANV2 On Videos',
-    description="Applying AnimeGAN-V2 to frame from video clips",
+    description="Applying AnimeGAN-V2 to frames from video clips",
     article=article,
     enable_queue=True,
     examples=[
-        ['obama.webm', 23, 10, 30],
+        ['obama.webm', 23, 5, 12],
     ],
     allow_flagging=False,
 ).launch(debug=True)
