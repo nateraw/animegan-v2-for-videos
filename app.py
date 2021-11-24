@@ -10,6 +10,7 @@ from encoded_video import EncodedVideo, write_video
 from PIL import Image
 from torchvision.transforms.functional import center_crop, to_tensor
 
+print("🧠 Loading Model...")
 model = torch.hub.load(
     "AK391/animegan2-pytorch:main",
     "generator",
@@ -17,7 +18,6 @@ model = torch.hub.load(
     device="cuda",
     progress=True,
 )
-
 
 def face2paint(model: torch.nn.Module, img: Image.Image, size: int = 512, device: str = 'cuda'):
     w, h = img.size
