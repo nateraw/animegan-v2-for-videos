@@ -154,4 +154,4 @@ gr.Interface(
         ['obama.webm', 0, 4],
     ],
     allow_flagging=False,
-).launch(debug=True)
+).launch()
