@@ -20,6 +20,7 @@ def run_cmd(command):
 
 
 print("⬇️ Installing latest gradio==2.4.7b0")
+run_cmd("pip install --upgrade pip")
 run_cmd('pip install "gradio==2.4.7b0"')
 import gradio as gr
 
