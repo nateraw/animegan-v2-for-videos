@@ -1,15 +1,5 @@
-import gc
-import math
 import sys
 from subprocess import call
-
-import numpy as np
-import torch
-from encoded_video import EncodedVideo, write_video
-from PIL import Image
-from torchvision.transforms.functional import center_crop, to_tensor
-
-
 def run_cmd(command):
     try:
         print(command)
@@ -18,11 +8,23 @@ def run_cmd(command):
         print("Process interrupted")
         sys.exit(1)
 
-
 print("⬇️ Installing latest gradio==2.4.7b0")
 run_cmd("pip install --upgrade pip")
 run_cmd('pip install "gradio==2.4.7b0"')
+
+import gc
+import math
+
+
 import gradio as gr
+import numpy as np
+import torch
+from encoded_video import EncodedVideo, write_video
+from PIL import Image
+from torchvision.transforms.functional import center_crop, to_tensor
+
+
+
 
 print("🧠 Loading Model...")
 model = torch.hub.load(
