@@ -1,7 +1,7 @@
 import gc
 import math
-import tempfile
-from io import BytesIO
+import sys
+from subprocess import call
 
 import gradio as gr
 import numpy as np
@@ -9,6 +9,19 @@ import torch
 from encoded_video import EncodedVideo, write_video
 from PIL import Image
 from torchvision.transforms.functional import center_crop, to_tensor
+
+
+def run_cmd(command):
+    try:
+        print(command)
+        call(command, shell=True)
+    except KeyboardInterrupt:
+        print("Process interrupted")
+        sys.exit(1)
+
+
+print("⬇️ Installing latest gradio==2.4.7b0")
+run_cmd("pip install gradio==2.4.7b0")
 
 print("🧠 Loading Model...")
 model = torch.hub.load(
@@ -140,7 +153,7 @@ article = """
 gr.Interface(
     predict_fn,
     inputs=[
-        gr.inputs.Video(),
+        gr.inputs.Video(source="webcam"),
         gr.inputs.Slider(minimum=0, maximum=300, step=1, default=0),
         gr.inputs.Slider(minimum=1, maximum=4, step=1, default=2),
         # gr.inputs.Slider(minimum=6, maximum=18, step=6, default=12),  # Leaving manual fps out for now
