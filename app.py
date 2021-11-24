@@ -142,7 +142,7 @@ gr.Interface(
         gr.inputs.Video(),
         gr.inputs.Slider(minimum=0, maximum=300, step=1, default=0),
         gr.inputs.Slider(minimum=1, maximum=5, step=1, default=2),
-        gr.inputs.Slider(minimum=6, maximum=24, step=6, default=12),
+        gr.inputs.Slider(minimum=6, maximum=18, step=6, default=12),
     ],
     outputs=gr.outputs.Video(),
     title='AnimeGANV2 On Videos',
@@ -150,7 +150,7 @@ gr.Interface(
     article=article,
     enable_queue=True,
     examples=[
-        ['obama.webm', 23, 5, 12],
+        ['obama.webm', 0, 4, 12],
     ],
     allow_flagging=False,
 ).launch(debug=True)
