@@ -8,9 +8,9 @@ def run_cmd(command):
         print("Process interrupted")
         sys.exit(1)
 
-print("⬇️ Installing latest gradio==2.4.7b0")
+print("⬇️ Installing latest gradio==2.4.7b9")
 run_cmd("pip install --upgrade pip")
-run_cmd('pip install gradio==2.4.7b0')
+run_cmd('pip install gradio==2.4.7b9')
 
 import gc
 import math
